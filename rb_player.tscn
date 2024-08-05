@@ -1,17 +1,39 @@
-[gd_scene load_steps=3 format=3 uid="uid://df4ivc1c6ay6n"]
+[gd_scene load_steps=7 format=3 uid="uid://loxkvm24047m"]
+
+[ext_resource type="Texture2D" uid="uid://dddlq3yh7tfbn" path="res://PNG/Green/texture_02.png" id="1_7tmjs"]
+[ext_resource type="Script" path="res://rb_player.gd" id="1_n7sgs"]
+[ext_resource type="Script" path="res://spring.gd" id="3_rmtae"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4c3sn"]
+height = 1.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nphdm"]
+albedo_texture = ExtResource("1_7tmjs")
+uv1_triplanar = true
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_qd4d2"]
+height = 1.5
 
 [node name="RBPlayer" type="RigidBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+gravity_scale = 0.0
 continuous_cd = true
+constant_force = Vector3(0, -10, 0)
+script = ExtResource("1_n7sgs")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1, 2.08165e-12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
 shape = SubResource("CapsuleShape3D_4c3sn")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+material_override = SubResource("StandardMaterial3D_nphdm")
 mesh = SubResource("CapsuleMesh_qd4d2")
 skeleton = NodePath("../..")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 5.85958)
+
+[node name="Spring" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+target_position = Vector3(0, -2, 0)
+script = ExtResource("3_rmtae")
